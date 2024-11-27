@@ -2,13 +2,10 @@
 SSH Automation Script: Automate SSH tasks across multiple servers
 
 
-
-
-## Requirements to Devel/Build
+## Requirements to Build
 
 ```bash
-## git, golang 1.23, cobra-cli
-go install github.com/spf13/cobra-cli@latest
+## git, golang 1.23, upx
 ## https://github.com/upx/upx/releases
 ```
 
