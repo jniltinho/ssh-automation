@@ -1,13 +1,13 @@
 version: '3'
 
 
-#env:
-#  host: 192.168.1.1
-#  user: root
-#  privateKey: .ssh/id_rsa
-#  password: password
-#  port: 22
-#  silent: true
+#envs vars
+#ENV_HOST: 192.168.1.1
+#ENV_USER: root
+#ENV_PRIVATEKEY: .ssh/id_rsa
+#ENV_PASSWORD: password
+#ENV_PORT: 22
+#ENV_SILENT: true
 
 
 tasks:
