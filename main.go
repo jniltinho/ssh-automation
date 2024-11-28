@@ -22,6 +22,7 @@ var (
 )
 
 var SetPort uint = 22
+var SetSilent bool = false
 
 func main() {
 	var rootCmd = &cobra.Command{
@@ -93,7 +94,7 @@ func main() {
 	runCmd.Flags().UintVarP(&port, "port", "p", SetPort, "SSH port")
 	runCmd.Flags().StringVarP(&privateKey, "key", "k", os.Getenv("SSH_KEY_PATH"), "Path to the private key file -> Create env [export SSH_KEY_PATH=$HOME/.ssh/id_rsa]")
 	runCmd.Flags().StringVarP(&password, "password", "P", os.Getenv("SSH_PASSWORD"), "SSH password -> Create env [export SSH_PASSWORD=yourpassword]")
-	runCmd.Flags().BoolVarP(&silent, "silent", "s", false, "Silent mode")
+	runCmd.Flags().BoolVarP(&silent, "silent", "s", SetSilent, "Silent mode")
 
 	// Mark required flags
 

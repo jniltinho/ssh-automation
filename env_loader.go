@@ -17,6 +17,7 @@ type ENV struct {
 	PrivateKey string `yaml:"privateKey"`
 	Password   string `yaml:"password"`
 	Port       uint   `yaml:"port"`
+	Silent     bool   `yaml:"silent"`
 }
 
 var env ENVRoot
@@ -45,6 +46,10 @@ func loadENVs() {
 
 	if env.ENV.Password != "" && os.Getenv("SSH_PASSWORD") == "" {
 		os.Setenv("SSH_PASSWORD", env.ENV.Password)
+	}
+
+	if env.ENV.Silent {
+		SetSilent = env.ENV.Silent
 	}
 
 	if env.ENV.Port != 0 {
