@@ -18,7 +18,7 @@ build:
 
 test: build
 	cp $(BINARY_NAME) test/$(BINARY_NAME)
-	cp config.yaml test/config.yaml
+	#cp config.yaml test/config.yaml
 
 
 clean:

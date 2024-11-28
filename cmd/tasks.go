@@ -7,7 +7,10 @@ import (
 
 	"github.com/melbahja/goph"
 	"golang.org/x/crypto/ssh"
+	"gopkg.in/yaml.v3"
 )
+
+var config Config
 
 // Task represents a single task to be executed on a server.
 type Task struct {
@@ -75,5 +78,18 @@ func executeTask(name string, task Task) {
 		if !silent {
 			fmt.Printf("  Successfully executed command on %s\n", host)
 		}
+	}
+}
+
+func loadYaml() {
+	data, err := os.ReadFile(cfgFile)
+	if err != nil {
+		log.Fatalf("Failed to read config file: %v", err)
+	}
+
+	// Parse the YAML configuration.
+	err = yaml.Unmarshal(data, &config)
+	if err != nil {
+		log.Fatalf("Failed to parse config file: %v", err)
 	}
 }

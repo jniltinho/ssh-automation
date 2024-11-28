@@ -9,7 +9,6 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"gopkg.in/yaml.v3"
 )
 
 var (
@@ -39,17 +38,7 @@ var runCmd = &cobra.Command{
 		}
 
 		// Load the YAML configuration file.
-		data, err := os.ReadFile(cfgFile)
-		if err != nil {
-			log.Fatalf("Failed to read config file: %v", err)
-		}
-
-		// Parse the YAML configuration.
-		var config Config
-		err = yaml.Unmarshal(data, &config)
-		if err != nil {
-			log.Fatalf("Failed to parse config file: %v", err)
-		}
+		loadYaml()
 
 		if task, ok := config.Tasks[taskName]; ok {
 			executeTask(taskName, task)

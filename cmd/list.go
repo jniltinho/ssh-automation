@@ -5,11 +5,8 @@ package cmd
 
 import (
 	"fmt"
-	"log"
-	"os"
 
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v3"
 )
 
 // listCmd represents the list command
@@ -17,17 +14,7 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List available tasks",
 	Run: func(cmd *cobra.Command, args []string) {
-		data, err := os.ReadFile(cfgFile)
-		if err != nil {
-			log.Fatalf("Failed to read config file: %v", err)
-		}
-
-		// Parse the YAML configuration.
-		var config Config
-		err = yaml.Unmarshal(data, &config)
-		if err != nil {
-			log.Fatalf("Failed to parse config file: %v", err)
-		}
+		loadYaml()
 
 		fmt.Println("Available tasks:")
 		for name := range config.Tasks {
