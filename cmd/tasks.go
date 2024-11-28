@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"fmt"
@@ -23,6 +23,9 @@ var auth goph.Auth
 var err error
 
 func executeTask(name string, task Task) {
+	//fmt.Println("privateKey:", privateKey)
+	//fmt.Println("user:", user)
+	//fmt.Println("host:", host)
 
 	if !silent {
 		fmt.Printf("Executing Task: %s\n", name)
