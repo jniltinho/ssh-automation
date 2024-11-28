@@ -5,6 +5,9 @@ version: '3'
 #  host: 192.168.1.1
 #  user: root
 #  privateKey: .ssh/id_rsa
+#  password: password
+#  port: 22
+#  silent: true
 
 
 tasks:
