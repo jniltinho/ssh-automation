@@ -17,7 +17,6 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List available tasks",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
 		data, err := os.ReadFile(cfgFile)
 		if err != nil {
 			log.Fatalf("Failed to read config file: %v", err)
