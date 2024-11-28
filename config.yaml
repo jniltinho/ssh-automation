@@ -1,5 +1,12 @@
 version: '3'
 
+
+#env:
+#  host: 192.168.1.1
+#  user: root
+#  privateKey: .ssh/id_rsa
+
+
 tasks:
   hello:
     cmds:

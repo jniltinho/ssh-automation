@@ -2,23 +2,12 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
-
-// Task represents a single task to be executed on a server.
-type Task struct {
-	Cmds []string `yaml:"cmds"`
-}
-
-// Config represents the structure of the YAML configuration file.
-type Config struct {
-	Tasks map[string]Task `yaml:"tasks"`
-}
 
 var (
 	// Define flags for SSH connection and command execution
@@ -32,6 +21,8 @@ var (
 	silent     bool
 )
 
+var SetPort uint = 22
+
 func main() {
 	var rootCmd = &cobra.Command{
 		Use:   "ssh-automation",
@@ -39,13 +30,14 @@ func main() {
 	}
 
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "file", "f", "config.yaml", "Configuration file")
+	loadENVs()
 
 	var listCmd = &cobra.Command{
 		Use:   "list",
 		Short: "List available tasks",
 		Run: func(cmd *cobra.Command, args []string) {
 			// Load the YAML configuration file.
-			data, err := ioutil.ReadFile(cfgFile)
+			data, err := os.ReadFile(cfgFile)
 			if err != nil {
 				log.Fatalf("Failed to read config file: %v", err)
 			}
@@ -75,7 +67,7 @@ func main() {
 			}
 
 			// Load the YAML configuration file.
-			data, err := ioutil.ReadFile(cfgFile)
+			data, err := os.ReadFile(cfgFile)
 			if err != nil {
 				log.Fatalf("Failed to read config file: %v", err)
 			}
@@ -88,11 +80,7 @@ func main() {
 			}
 
 			if task, ok := config.Tasks[taskName]; ok {
-				if silent {
-					executeTaskSilent(task)
-				} else {
-					executeTask(taskName, task)
-				}
+				executeTask(taskName, task)
 			} else {
 				log.Fatalf("Task not found: %s", taskName)
 			}
@@ -102,14 +90,14 @@ func main() {
 	runCmd.Flags().StringVarP(&taskName, "task", "t", "", "Name of the task to execute")
 	runCmd.Flags().StringVarP(&user, "user", "u", os.Getenv("SSH_USER"), "SSH username -> Create env [export SSH_USER=root]")
 	runCmd.Flags().StringVarP(&host, "host", "H", os.Getenv("SSH_HOST"), "SSH hostname or IP address -> Create env [export SSH_HOST=192.168.1.1]")
-	runCmd.Flags().UintVarP(&port, "port", "p", 22, "SSH port")
+	runCmd.Flags().UintVarP(&port, "port", "p", SetPort, "SSH port")
 	runCmd.Flags().StringVarP(&privateKey, "key", "k", os.Getenv("SSH_KEY_PATH"), "Path to the private key file -> Create env [export SSH_KEY_PATH=$HOME/.ssh/id_rsa]")
 	runCmd.Flags().StringVarP(&password, "password", "P", os.Getenv("SSH_PASSWORD"), "SSH password -> Create env [export SSH_PASSWORD=yourpassword]")
 	runCmd.Flags().BoolVarP(&silent, "silent", "s", false, "Silent mode")
 
 	// Mark required flags
 
-	if user == "" && host == "" {
+	if user == "" || host == "" {
 		runCmd.MarkFlagRequired("user")
 		runCmd.MarkFlagRequired("host")
 	}
